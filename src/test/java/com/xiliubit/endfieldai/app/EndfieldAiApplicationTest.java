@@ -1,9 +1,13 @@
 package com.xiliubit.endfieldai.app;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.ai.chat.memory.ChatMemoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 
 import java.util.UUID;
 
@@ -15,7 +19,8 @@ class EndfieldAiApplicationTest {
 
     @Test
     void testChat() {
-        String chatId = UUID.randomUUID().toString();
+//        String chatId = UUID.randomUUID().toString();
+        String chatId = "xiliu111";
         // 第一轮
         String message = "你好，我是溪流";
         String answer = endfieldAIApp.doChat(message, chatId);

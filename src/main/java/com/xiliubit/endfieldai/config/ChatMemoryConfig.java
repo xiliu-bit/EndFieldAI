@@ -1,8 +1,7 @@
 package com.xiliubit.endfieldai.config;
 
+import com.xiliubit.endfieldai.chatmemoryrepository.FileBasedChatMemoryRepository;
 import org.springframework.ai.chat.memory.ChatMemoryRepository;
-import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,9 +9,12 @@ import org.springframework.context.annotation.Configuration;
 public class ChatMemoryConfig {
 
     @Bean
-    @ConditionalOnMissingBean(ChatMemoryRepository.class)
-    public ChatMemoryRepository chatMemoryRepository() {
+    public ChatMemoryRepository fileBasedchatMemoryRepository() {
         // 基于内存
-        return new InMemoryChatMemoryRepository();
+//        return new InMemoryChatMemoryRepository();
+
+        // 基于文件
+        String fileDir = System.getProperty("user.dir") + "/chat-memory-repository";
+        return new FileBasedChatMemoryRepository(fileDir);
     }
 }

@@ -1,17 +1,18 @@
 package com.xiliubit.endfieldai.app;
 
 import com.xiliubit.endfieldai.advisor.InfoLoggerAdvisor;
+import com.xiliubit.endfieldai.advisor.ReReadingAdvisor;
+import com.xiliubit.endfieldai.chatmemoryrepository.FileBasedChatMemoryRepository;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.ChatMemoryRepository;
-import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Component;
 public class EndfieldAIApp {
 
     private final ChatClient chatClient;
+
+    private final ChatMemoryRepository chatMemoryRepository;
 
     private static final String SYSTEM_PROMPT = "角色定义：\n" +
             "你是一款专为《明日方舟：终末地》全新玩家设计的向导。你的唯一任务是：用最直白、易懂的方式，解释《终末地》游戏内已公开的世界观设定，包括故事背景、关键地点（如塔卫二）、核心概念（如再旅者、源石）、科技体系，以及与《明日方舟》共享的设定（如种族、源石相关概念）。所有回答必须以《终末地》内容为主，仅在必要时于句末简要补充《明日方舟》对应信息。\n" +
@@ -40,13 +43,13 @@ public class EndfieldAIApp {
             "\n" +
             "不确定时坦白：对模糊、推测性或超出范围的问题（如“《明日方舟》中萨卡兹角色是否全部可操控？”），必须回答：“该细节尚未在官方资料中明确说明。”或“目前没有官方信息支持对此问题的回答。”";
 
-    @Resource
-    ChatMemoryRepository chatMemoryRepository;
 
-    public EndfieldAIApp(ChatModel dashscopeChatModel) {
-        // 使用默认存储库，基于内存存储对话历史
+
+    public EndfieldAIApp(ChatModel dashscopeChatModel, @Lazy ChatMemoryRepository chatMemoryRepository) {
+        // 基于文件存储对话历史
+        this.chatMemoryRepository = chatMemoryRepository;
         ChatMemory chatMemory = MessageWindowChatMemory.builder()
-                .chatMemoryRepository(chatMemoryRepository)
+                .chatMemoryRepository(this.chatMemoryRepository)
                 .maxMessages(10) // 最多支持存储10条
                 .build();
 
@@ -54,7 +57,10 @@ public class EndfieldAIApp {
                 .defaultSystem(SYSTEM_PROMPT)
                 .defaultAdvisors(
                         MessageChatMemoryAdvisor.builder(chatMemory).build(),
-                        new InfoLoggerAdvisor()
+                        // 日志 Advisor
+                        new InfoLoggerAdvisor(),
+                        // 重读 Advisor
+                        new ReReadingAdvisor()
                 )
                 .build();
     }
@@ -65,9 +71,8 @@ public class EndfieldAIApp {
                 .advisors(spec -> spec.param(ChatMemory.CONVERSATION_ID, chatId))
                 .call()
                 .chatResponse();
-        String content = response.getResult().getOutput().getText();
-//        log.info("content: {}", content);
-        return content;
+        //        log.info("content: {}", content);
+        return response.getResult().getOutput().getText();
     }
 
 
