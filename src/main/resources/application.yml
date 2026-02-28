@@ -4,6 +4,16 @@ spring:
 # src/main/resources/application.yml
   profiles:
     active: local  # 激活 local profile
+  ai:
+    vectorstore:
+      pgvector:
+        index-type: HNSW
+        #        在不确定向量维度时不要指定dimensions配置
+        #        dimensions: 1536
+        distance-type: COSINE_DISTANCE
+        max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
+        #        自动建表
+        initialize-schema: true
 server:
   port: 8123
   servlet:

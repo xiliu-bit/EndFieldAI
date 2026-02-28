@@ -90,7 +90,30 @@
 			<version>5.6.2</version>
 		</dependency>
 
+		<!--Source: https://mvnrepository.com/artifact/org.springframework.ai/spring-ai-markdown-document-reader -->
+<!--		Spring AI Markdown Document Reader-->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-markdown-document-reader</artifactId>
+			<version>1.1.2</version>
+			<scope>compile</scope>
+		</dependency>
 
+<!--		Spring AI 官方提供的向量存储   vector-store-->
+		<!-- Source: https://mvnrepository.com/artifact/org.springframework.ai/spring-ai-advisors-vector-store -->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-advisors-vector-store</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+
+		<!-- Source: https://mvnrepository.com/artifact/org.springframework.ai/spring-ai-starter-vector-store-pgvector -->
+<!--		pgvector向量库存储-->
+		<dependency>
+			<groupId>org.springframework.ai</groupId>
+			<artifactId>spring-ai-starter-vector-store-pgvector</artifactId>
+			<version>1.1.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>

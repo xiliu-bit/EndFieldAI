@@ -17,6 +17,7 @@ import reactor.core.publisher.Flux;
 @Slf4j
 public class InfoLoggerAdvisor implements CallAdvisor, StreamAdvisor {
 
+    private int order = 0;
 
     @Override
     public ChatClientResponse adviseCall(ChatClientRequest chatClientRequest, CallAdvisorChain callAdvisorChain) {
@@ -53,6 +54,11 @@ public class InfoLoggerAdvisor implements CallAdvisor, StreamAdvisor {
 
     @Override
     public int getOrder() {
-        return 0;
+        return this.order;
+    }
+
+    public InfoLoggerAdvisor withOrder(int order) {
+        this.order = order;
+        return this;
     }
 }
