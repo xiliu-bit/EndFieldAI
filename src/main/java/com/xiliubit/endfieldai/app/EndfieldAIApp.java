@@ -47,7 +47,7 @@ public class EndfieldAIApp {
             "不确定时坦白：对模糊、推测性或超出范围的问题（如“《明日方舟》中萨卡兹角色是否全部可操控？”），必须回答：“该细节尚未在官方资料中明确说明。”或“目前没有官方信息支持对此问题的回答。”";
 
     @Resource
-    private VectorStore endfiledAIAppVectorStore;
+    private VectorStore pgVectorStore;
 
     public EndfieldAIApp(ChatModel dashscopeChatModel, @Lazy ChatMemoryRepository chatMemoryRepository) {
         // 基于文件存储对话历史
@@ -97,12 +97,11 @@ public class EndfieldAIApp {
                 .prompt()
                 .user(message)
                 .advisors(spec -> spec.param(ChatMemory.CONVERSATION_ID, chatId))
-                // 知识库开启
-                .advisors(QuestionAnswerAdvisor.builder(endfiledAIAppVectorStore).order(LOWER_PRECEDENCE).build())
+                // 知识库开启（使用pgVector）
+                .advisors(QuestionAnswerAdvisor.builder(pgVectorStore).order(LOWER_PRECEDENCE).build())
                 .call()
                 .chatResponse();
         return response.getResult().getOutput().getText();
     }
-
 
 }

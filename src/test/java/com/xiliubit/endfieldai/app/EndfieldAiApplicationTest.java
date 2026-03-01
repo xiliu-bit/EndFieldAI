@@ -38,7 +38,7 @@ class EndfieldAiApplicationTest {
     void testDoChatWithRag() {
         String chatId = UUID.randomUUID().toString();
         String message = "莱万汀是再旅者吗？";
-        message = "介绍一下狼卫。";
+        message = "简要介绍一下种族。";
         String answer =  endfieldAIApp.doChatWithRag(message, chatId);
         Assertions.assertNotNull(answer);
     }
