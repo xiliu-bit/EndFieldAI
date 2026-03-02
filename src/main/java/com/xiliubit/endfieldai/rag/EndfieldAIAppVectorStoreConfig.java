@@ -61,7 +61,7 @@ public class EndfieldAIAppVectorStoreConfig {
         SimpleVectorStore simpleVectorStore = SimpleVectorStore.builder(dashscopeEmbeddingModel)
                 .build();
         // 加载文档
-        //todo 因为暂时使用的是内存存储，这里暂时的逻辑是每次启动时都会重新加载文档 后续可以改用pgVector存储
+        //因为暂时使用的是内存存储，这里暂时的逻辑是每次启动时都会重新加载文档 后续可以改用pgVector存储
         *//*
         * // 不添加内容重复的document
             if (CollUtil.isNotEmpty(documents)) {
