@@ -8,7 +8,6 @@ import org.springframework.ai.tool.annotation.ToolParam;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EndfieldWikiTool {
 

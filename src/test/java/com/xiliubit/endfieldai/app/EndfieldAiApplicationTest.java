@@ -40,8 +40,18 @@ class EndfieldAiApplicationTest {
         String message = "莱万汀是再旅者吗？";
         message = "简要介绍一下余烬，如果你无法回答我，请使用工具查询答案，比如查询终末地Wiki的工具，如果无法使用，请介绍一下你有哪些工具以及你为什么无法使用这个工具";
         message = "协议回收部门是什么，如果你无法回答我，告诉我你是否使用工具，请介绍一下你有哪些工具以及你为什么无法使用这个工具";
-//        message = "简要介绍一下别礼";
+        message = "简要介绍一下别礼";
+        message = "你是谁";
         String answer =  endfieldAIApp.doChatWithRag(message, chatId);
+        Assertions.assertNotNull(answer);
+    }
+
+    @Test
+    void testDoChatWithManus() {
+        String chatId = UUID.randomUUID().toString();
+        String message = "余烬是谁";
+//        message = "你是谁";
+        String answer =  endfieldAIApp.doChatWithManus(message);
         Assertions.assertNotNull(answer);
     }
 

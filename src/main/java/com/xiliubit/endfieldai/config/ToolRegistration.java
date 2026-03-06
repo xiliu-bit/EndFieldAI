@@ -1,6 +1,7 @@
 package com.xiliubit.endfieldai.config;
 
 import com.xiliubit.endfieldai.tools.EndfieldWikiTool;
+import com.xiliubit.endfieldai.tools.TerminateTool;
 import com.xiliubit.endfieldai.tools.WebScrapingTool;
 import com.xiliubit.endfieldai.tools.WebSearchTool;
 import org.springframework.ai.support.ToolCallbacks;
@@ -20,10 +21,12 @@ public class ToolRegistration {
         WebSearchTool webSearchTool = new WebSearchTool(searchApiKey);
         WebScrapingTool webScrapingTool = new WebScrapingTool();
         EndfieldWikiTool endfieldWikiTool = new EndfieldWikiTool();
+        TerminateTool terminateTool = new TerminateTool();
         return ToolCallbacks.from(
                 webSearchTool,
                 webScrapingTool,
-                endfieldWikiTool
+                endfieldWikiTool,
+                terminateTool
         );
     }
 }
